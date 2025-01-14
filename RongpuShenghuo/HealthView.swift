@@ -52,6 +52,8 @@ struct HealthView: View {
                             GPSBlockView()
                         }
                         
+                        GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
+                        
                         HStack {
                             HealthInfoBlockView(user: selectedUser)
                             AlertBlcokView(image: "", state: 0)
@@ -531,6 +533,94 @@ struct CCTVBlockView: View {
         }
         .sheet(isPresented: $isImagePickerPresented) {
             ImagePicker(isPresented: $isImagePickerPresented)
+        }
+    }
+}
+
+struct LineGraph: View {
+    let data: [CGFloat]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            let height = geometry.size.height
+            let stepX = width / CGFloat(data.count - 1)
+            let maxValue = data.max() ?? 1
+            let minValue = data.min() ?? 0
+            let range = maxValue - minValue == 0 ? 1 : maxValue - minValue
+            
+            ZStack {
+                // Draw the graph line
+                Path { path in
+                    guard !data.isEmpty else { return }
+                    
+                    let firstPointY = height - ((data[0] - minValue) / range * height)
+                    path.move(to: CGPoint(x: 0, y: firstPointY))
+                    
+                    for index in 1..<data.count {
+                        let x = CGFloat(index) * stepX
+                        let y = height - ((data[index] - minValue) / range * height)
+                        path.addLine(to: CGPoint(x: x, y: y))
+                    }
+                }
+                .stroke(Color.blue, lineWidth: 2)
+                
+                // Draw data points
+                ForEach(data.indices, id: \.self) { index in
+                    let x = CGFloat(index) * stepX
+                    let y = height - ((data[index] - minValue) / range * height)
+                    
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 8, height: 8)
+                        .position(x: x, y: y)
+                }
+            }
+        }
+        .frame(height: 110) // Set the height explicitly
+        .padding(10) // Avoid clipping near the edges
+    }
+}
+
+
+struct GraphBlockView: View {
+    @State private var isDetailPresented = false
+    let data: [CGFloat]
+    
+    var body: some View {
+        VStack {
+            // Graph area
+            if !data.isEmpty {
+                LineGraph(data: data)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 340, height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 15.0))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15.0)
+                            .stroke(Color.gray, lineWidth: 1)
+                    )
+            } else {
+                Text("No data available")
+                    .foregroundColor(.red)
+            }
+            
+            // Title
+            Text("健康曲线")
+                .font(.system(size: 18))
+                .bold()
+                .padding(.top, 5)
+                .padding(.bottom, 10)
+        }
+        .padding(5)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 15.0))
+        .shadow(radius: 5)
+        .onTapGesture {
+            isDetailPresented = true
+        }
+        .sheet(isPresented: $isDetailPresented) {
+            // Detail view for the graph
+            Text("Graph details would go here.")
         }
     }
 }

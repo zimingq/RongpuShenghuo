@@ -28,7 +28,7 @@ struct ShopView: View {
                     }
 
                     VStack {
-                        Image("jingdong") // Placeholder for 京东
+                        Image("jingdong")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
@@ -38,7 +38,7 @@ struct ShopView: View {
                     }
 
                     VStack {
-                        Image("pinduoduo") // Placeholder for 拼多多
+                        Image("pinduoduo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
