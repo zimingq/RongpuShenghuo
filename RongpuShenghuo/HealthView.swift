@@ -167,7 +167,7 @@ struct UserBlockView: View {
         Button(action: {
             selectedUser = user
         }) {
-            HStack(spacing: 10) {  // Adjusted spacing for a cleaner look
+            HStack(spacing: 10) {
                 selectionIcon
                 userImage
                 userName

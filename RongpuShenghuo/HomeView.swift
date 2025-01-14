@@ -76,7 +76,7 @@ struct CustomButtonStyle: View {
 
     var body: some View {
         Text(title)
-            .font(.headline)
+            .font(.title)
             .frame(maxWidth: .infinity, minHeight: 70)
             .background(color)
             .foregroundColor(.white)

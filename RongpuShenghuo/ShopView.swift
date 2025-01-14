@@ -10,7 +10,6 @@ import SwiftUI
 struct ShopView: View {
     var body: some View {
         VStack(spacing: 20) {
-            // Shopping Channel Section
             VStack(spacing: 10) {
                 Text("购物频道")
                     .font(.headline)
@@ -26,7 +25,16 @@ struct ShopView: View {
                         Text("淘宝")
                             .font(.body)
                     }
-
+                    
+                    VStack {
+                        Image("tmall")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                        Text("天猫")
+                            .font(.body)
+                    }
+                    
                     VStack {
                         Image("jingdong")
                             .resizable()
@@ -37,79 +45,95 @@ struct ShopView: View {
                             .font(.body)
                     }
 
+                }
+                
+                HStack(spacing: 30) {
                     VStack {
                         Image("pinduoduo")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 80, height: 80)
-                            .foregroundColor(.green)
                         Text("拼多多")
                             .font(.body)
                     }
+                    .frame(alignment: .leading)
+                    
+                    VStack {
+                        Image("douyin")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                        Text("抖音")
+                            .font(.body)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding(.horizontal, 35)
             }
 
             Spacer()
 
             // Life Services Section
             VStack(spacing: 10) {
-                Text("生活服务频道")
+                Text("订餐、酒店、机票、网约车生活服务频道")
                     .font(.headline)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
                     VStack {
-                        Image(systemName: "fork.knife") // Placeholder for 美团
+                        Image("meituan")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.orange)
-                            .padding() // Add padding inside the border
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.orange, lineWidth: 2) // Border with orange color
-                            )
+                            .frame(width: 80, height: 80)
                         Text("美团")
                             .font(.body)
                     }
 
+
                     VStack {
-                        Image(systemName: "house.fill") // Placeholder for 养老院
+                        Image("ctrip")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                        Text("携程")
+                            .font(.body)
+                    }
+                    
+                    VStack {
+                        Image("caocao")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80, height: 80)
+                        Text("曹操出行")
+                            .font(.body)
+                    }
+                }
+                
+                HStack {
+                    VStack {
+                        Image(systemName: "house.fill")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 50, height: 50)
                             .foregroundColor(.purple)
-                            .padding() // Add padding inside the border
+                            .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.purple, lineWidth: 2) // Border with purple color
+                                    .stroke(Color.purple, lineWidth: 2)
                             )
                         Text("养老院")
                             .font(.body)
                     }
-
-                    VStack {
-                        Image(systemName: "airplane") // Placeholder for 旅游
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.cyan)
-                            .padding() // Add padding inside the border
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.cyan, lineWidth: 2) // Border with cyan color
-                            )
-                        Text("旅游")
-                            .font(.body)
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding(.horizontal, 35)
 
             }
 
             Spacer()
         }
         .padding()
-        .navigationTitle("商城")
+        .navigationTitle("荣菩生活")
     }
 }
 

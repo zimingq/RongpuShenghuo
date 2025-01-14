@@ -49,31 +49,43 @@ struct SOSView: View {
                 }
 
                 // Picker Section
-                VStack(spacing: 16) {
-                    Text("选择救助类型")
-                        .font(.title2)
-                        .bold()
+//                VStack(spacing: 16) {
+//                    Text("选择救助类型")
+//                        .font(.title2)
+//                        .bold()
+//
+//                    Picker(selection: $selectedOption, label: Text("救助类型")) {
+//                        ForEach(options, id: \.self) { option in
+//                            Text(option).tag(option)
+//                        }
+//                    }
+//                    .pickerStyle(SegmentedPickerStyle())
+//                    .padding()
+//                }
 
-                    Picker(selection: $selectedOption, label: Text("救助类型")) {
-                        ForEach(options, id: \.self) { option in
-                            Text(option).tag(option)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .padding()
-                }
-
-                // Actions Section
                 VStack(spacing: 20) {
-                    Text("请选择以下操作")
-                        .font(.headline)
-                        .foregroundColor(.gray)
+                    Text("生命救助")
+                        .font(.title3)
 
                     HStack(spacing: 16) {
                         // Buttons
-                        ActionButton(title: "语音", color: .blue)
-                        ActionButton(title: "视频", color: .green)
-                        ActionButton(title: "一键求助", color: .red)
+                        ActionButton(title: "语音", color: .blue, iconName: "mic.fill")
+                        ActionButton(title: "视频", color: .green, iconName: "video.fill")
+                        ActionButton(title: "一键求助", color: .red, iconName: "exclamationmark.triangle.fill")
+
+                    }
+                }
+                
+                // Actions Section
+                VStack(spacing: 20) {
+                    Text("迷路救助")
+                        .font(.title3)
+
+                    HStack(spacing: 16) {
+                        // Buttons
+                        ActionButton(title: "语音", color: .blue, iconName: "mic.fill")
+                        ActionButton(title: "视频", color: .green, iconName: "video.fill")
+                        ActionButton(title: "一键求助", color: .red, iconName: "exclamationmark.triangle.fill")
                     }
                 }
 
@@ -156,21 +168,27 @@ struct FullDescriptionView: View {
 struct ActionButton: View {
     let title: String
     let color: Color
+    let iconName: String  // Added to pass icon name
 
     var body: some View {
         Button(action: {
             // Action goes here
         }) {
-            Text(title)
-                .font(.title3)
-                .bold()
-                .frame(maxWidth: .infinity, maxHeight: 80)
-                .foregroundColor(.white)
-                .background(color)
-                .cornerRadius(12)
+            HStack {
+                Image(systemName: iconName) // Icon for the button
+                    .foregroundColor(.white)
+                Text(title)
+                    .font(.title3)
+                    .bold()
+                    .foregroundColor(.white)
+            }
+            .frame(maxWidth: .infinity, maxHeight: 80)
+            .background(color)
+            .cornerRadius(12)
         }
     }
 }
+
 
 #Preview {
     SOSView()

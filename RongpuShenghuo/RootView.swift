@@ -22,7 +22,7 @@ struct RootView: View {
             Tab("主页", systemImage: "house", value: .home){
                 HomeView()
             }
-            Tab("客服", systemImage: "bubble.left.and.bubble.right", value: .home){
+            Tab("客服", systemImage: "bubble.left.and.bubble.right", value: .chat){
                 ChatView()
             }
             Tab("紧急救援", systemImage: "sos", value: .sos){
