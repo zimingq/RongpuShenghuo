@@ -11,7 +11,6 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 4) {
-                // Four buttons at the top
                 VStack(spacing: 16) {
                     HStack(spacing: 16) {
                         NavigationLink(destination: HealthView()){
