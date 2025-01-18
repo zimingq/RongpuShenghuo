@@ -23,8 +23,8 @@ struct HomeView: View {
                     }
                     
                     HStack(spacing: 16) {
-                        NavigationLink(destination: Text("placeholder")){
-                            CustomButtonStyle(title: "联系人管理", color: .orange)
+                        NavigationLink(destination: ProfileView()){
+                            CustomButtonStyle(title: "个人中心", color: .orange)
                         }
                         
                         NavigationLink(destination: ShopView()){
@@ -47,7 +47,6 @@ struct HomeView: View {
                 Spacer()
             }
             .padding()
-            .background(Color(UIColor.systemGroupedBackground).edgesIgnoringSafeArea(.all))
         }
     }
 }
@@ -88,4 +87,3 @@ struct CustomButtonStyle: View {
 #Preview {
     HomeView()
 }
-

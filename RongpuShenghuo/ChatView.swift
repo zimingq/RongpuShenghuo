@@ -93,18 +93,18 @@ struct ChatView: View {
                     inputText = ""
                 }) {
                     Text("发送")
-                        .font(.system(size: 20)) // Make the text bigger
+                        .font(.system(size: 20))
                         .padding(.horizontal)
                         .padding(.vertical, 8)
                         .background(inputText.isEmpty ? Color.gray : Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                 }
-                .disabled(inputText.isEmpty) // Disable button when inputText is empty
+                .disabled(inputText.isEmpty)
             }
         }
         .navigationTitle("客服")
-        .padding() // Optional padding for better layout on different devices
+        .padding()
     }
 }
 

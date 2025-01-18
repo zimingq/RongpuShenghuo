@@ -17,13 +17,13 @@ struct SOSView: View {
             VStack(spacing: 30) {
                 // Title Section
                 VStack(spacing: 10) {
-                    Text("SOS 救援")
-                        .font(.largeTitle)
-                        .bold()
-                        .foregroundColor(.blue)
+                    Image("SOS")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 150, height: 150)
                     
                     Text("选择您需要的救助类型，并获取相应帮助")
-                        .font(.headline)
+                        .font(.system(size: 18)) // Custom font size
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -32,7 +32,7 @@ struct SOSView: View {
                 // Description Section
                 VStack(alignment: .leading, spacing: 10) {
                     Text(shortDescription)
-                        .font(.body)
+                        .font(.system(size: 16)) // Custom font size
                         .foregroundColor(.black)
                         .multilineTextAlignment(.leading)
                         .padding()
@@ -43,43 +43,27 @@ struct SOSView: View {
                         isModalVisible.toggle()
                     }) {
                         Text("展开详细信息")
-                            .font(.headline)
+                            .font(.system(size: 16)) // Custom font size
                             .foregroundColor(.blue)
                     }
                 }
 
-                // Picker Section
-//                VStack(spacing: 16) {
-//                    Text("选择救助类型")
-//                        .font(.title2)
-//                        .bold()
-//
-//                    Picker(selection: $selectedOption, label: Text("救助类型")) {
-//                        ForEach(options, id: \.self) { option in
-//                            Text(option).tag(option)
-//                        }
-//                    }
-//                    .pickerStyle(SegmentedPickerStyle())
-//                    .padding()
-//                }
-
                 VStack(spacing: 20) {
                     Text("生命救助")
-                        .font(.title3)
+                        .font(.system(size: 20)) // Custom font size
 
                     HStack(spacing: 16) {
                         // Buttons
                         ActionButton(title: "语音", color: .blue, iconName: "mic.fill")
                         ActionButton(title: "视频", color: .green, iconName: "video.fill")
                         ActionButton(title: "一键求助", color: .red, iconName: "exclamationmark.triangle.fill")
-
                     }
                 }
                 
                 // Actions Section
                 VStack(spacing: 20) {
                     Text("迷路救助")
-                        .font(.title3)
+                        .font(.system(size: 20)) // Custom font size
 
                     HStack(spacing: 16) {
                         // Buttons
@@ -95,7 +79,7 @@ struct SOSView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Text("SOS 救援")
-                        .font(.title3)
+                        .font(.system(size: 20)) // Custom font size
                         .bold()
                 }
             }
@@ -124,13 +108,20 @@ struct FullDescriptionView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    Text("详细说明")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding(.bottom)
-
+                    HStack{
+                        Text("详细说明")
+                            .font(.system(size: 24))
+                            .bold()
+                        Spacer()
+                        Button("购买会员"){
+                            
+                        }
+                        .frame(width: 100)
+                        .padding()
+                        .tint(.red)
+                    }
                     Text(fullDescription)
-                        .font(.body)
+                        .font(.system(size: 24))
                         .foregroundColor(.black)
                         .multilineTextAlignment(.leading)
                 }
@@ -178,7 +169,7 @@ struct ActionButton: View {
                 Image(systemName: iconName) // Icon for the button
                     .foregroundColor(.white)
                 Text(title)
-                    .font(.title3)
+                    .font(.system(size: 18)) // Custom font size
                     .bold()
                     .foregroundColor(.white)
             }

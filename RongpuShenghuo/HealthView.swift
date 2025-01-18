@@ -47,10 +47,10 @@ struct HealthView: View {
                             Array(filteredMetrics[$0..<min($0 + 2, filteredMetrics.count)])
                         }
                         
-                        HStack {
-                            CCTVBlockView()
-                            GPSBlockView()
-                        }
+//                        HStack {
+//                            CCTVBlockView()
+//                            GPSBlockView()
+//                        }
                         
                         GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
                         
@@ -462,7 +462,7 @@ struct GPSBlockView: View {
                 showAlert = true
             }) {
                 Map(coordinateRegion: $locationManager.region)
-                    .frame(width: 170, height: 120)
+                    .frame(width: 150, height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             }
             Text("GPS")
@@ -508,7 +508,7 @@ struct CCTVBlockView: View {
             if let videoURL = videoURL {
                 VideoPlayerView(videoURL: videoURL)
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 170, height: 120)
+                    .frame(width: 150, height: 120)
                     .clipShape(RoundedRectangle(cornerRadius: 15.0))
                     .overlay(
                         RoundedRectangle(cornerRadius: 15.0)
@@ -516,9 +516,10 @@ struct CCTVBlockView: View {
                     )
             } else {
                 Text("Video not found")
+                    .frame(width: 170, height: 120)
                     .foregroundColor(.red)
             }
-            Text("实时影像")
+            Text("卫星影像")
                 .font(.system(size: 18))
                 .bold()
                 .padding(.top, 5)

@@ -12,7 +12,7 @@ struct ShopView: View {
         VStack(spacing: 20) {
             VStack(spacing: 10) {
                 Text("购物频道")
-                    .font(.headline)
+                    .font(.system(size: 20))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
@@ -23,7 +23,7 @@ struct ShopView: View {
                             .frame(width: 80, height: 80)
                             .foregroundColor(.blue)
                         Text("淘宝")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     
                     VStack {
@@ -32,7 +32,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("天猫")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     
                     VStack {
@@ -42,7 +42,7 @@ struct ShopView: View {
                             .frame(width: 80, height: 80)
                             .foregroundColor(.red)
                         Text("京东")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
 
                 }
@@ -54,7 +54,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("拼多多")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     .frame(alignment: .leading)
                     
@@ -64,7 +64,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("抖音")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
@@ -76,7 +76,7 @@ struct ShopView: View {
             // Life Services Section
             VStack(spacing: 10) {
                 Text("订餐、酒店、机票、网约车生活服务频道")
-                    .font(.headline)
+                    .font(.system(size: 20))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
@@ -86,7 +86,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("美团")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
 
 
@@ -96,7 +96,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("携程")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     
                     VStack {
@@ -105,7 +105,7 @@ struct ShopView: View {
                             .scaledToFit()
                             .frame(width: 80, height: 80)
                         Text("曹操出行")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                 }
                 
@@ -122,7 +122,7 @@ struct ShopView: View {
                                     .stroke(Color.purple, lineWidth: 2)
                             )
                         Text("养老院")
-                            .font(.body)
+                            .font(.system(size: 16))
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }

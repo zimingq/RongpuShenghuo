@@ -15,8 +15,11 @@ struct ProfileView: View {
             Form {
                 ProfileButtonView(userInfo: $userInfoManager.users[0])
                 
+                HStack {
+                    CCTVBlockView()
+                    GPSBlockView()
+                }
                 Section {
-//                    sectionWithButtons(title: "我的订单", systemName: "doc.text")
                     sectionWithButtons(title: "设置", systemName: "gear")
                     sectionWithButtons(title: "通知", systemName: "bell")
                     sectionWithButtons(title: "隐私", systemName: "lock")

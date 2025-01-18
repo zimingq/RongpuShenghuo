@@ -19,7 +19,7 @@ struct UserInfoModel: Identifiable, Codable {
     
     var location: Location
     var memberID: String
-    var emergencyContacts: [String] // For storing multiple emergency contacts
+    var emergencyContacts: [String]
     var medicalAccount: String
     var socialSecurityAccount: String
     var memberType: String
