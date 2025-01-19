@@ -110,7 +110,6 @@ struct ChatView: View {
                             .foregroundStyle(.blue)
                     }
                 }
-                .padding()
             }
             .navigationTitle("客服")
             .navigationBarTitleDisplayMode(.inline)

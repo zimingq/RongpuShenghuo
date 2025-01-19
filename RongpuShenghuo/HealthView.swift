@@ -47,12 +47,12 @@ struct HealthView: View {
                             Array(filteredMetrics[$0..<min($0 + 2, filteredMetrics.count)])
                         }
                         
-                        GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
-                        
                         HStack {
                             HealthInfoBlockView(user: selectedUser)
                             AlertBlcokView(image: "", state: 0)
                         }
+                        
+                        GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
                         
                         ForEach(metricPairs.indices, id: \.self) { index in
                             HStack {
@@ -62,8 +62,8 @@ struct HealthView: View {
                             }
                         }
                         
-                        HealthDataAddBlockView()
-                            .padding(.bottom)
+//                        HealthDataAddBlockView()
+//                            .padding(.bottom)
                     } else {
                         VStack {
                             Text("当前没有用户")

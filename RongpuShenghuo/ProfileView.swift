@@ -21,7 +21,6 @@ struct ProfileView: View {
                 }
                 Section {
                     sectionWithButtons(title: "设置", systemName: "gear")
-                    sectionWithButtons(title: "通知", systemName: "bell")
                     sectionWithButtons(title: "隐私", systemName: "lock")
                 }
                 

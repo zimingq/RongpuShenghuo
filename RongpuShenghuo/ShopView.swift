@@ -11,7 +11,7 @@ struct ShopView: View {
     var body: some View {
         VStack(spacing: 20) {
             // Shopping Channel
-            VStack(spacing: 10) {
+            VStack {
                 Text("购物频道")
                     .font(.system(size: 20))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -26,7 +26,6 @@ struct ShopView: View {
                     AppIconView(imageName: "pinduoduo", appName: "拼多多", urlScheme: "pdd://", appStoreLink: "https://apps.apple.com/cn/app/拼多多/id1020116749")
                     AppIconView(imageName: "douyin", appName: "抖音", urlScheme: "snssdk1128://", appStoreLink: "https://apps.apple.com/cn/app/抖音/id1142110895")
                 }
-                .padding(.horizontal, 35)
             }
 
             Spacer()
@@ -42,12 +41,6 @@ struct ShopView: View {
                     AppIconView(imageName: "ctrip", appName: "携程", urlScheme: "ctrip://", appStoreLink: "https://apps.apple.com/cn/app/携程旅行/id453392081")
                     AppIconView(imageName: "caocao", appName: "曹操出行", urlScheme: "caocao://", appStoreLink: "https://apps.apple.com/cn/app/曹操出行/id957687723")
                 }
-
-                HStack {
-                    AppIconView(imageName: "house.fill", appName: "养老院", urlScheme: "养老院://", appStoreLink: "https://apps.apple.com/cn/app/养老院/id1234567890")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .padding(.horizontal, 35)
             }
 
             Spacer()
