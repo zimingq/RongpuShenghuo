@@ -13,11 +13,11 @@ struct HomeView: View {
             VStack(spacing: 4) {
                 VStack(spacing: 16) {
                     HStack(spacing: 16) {
-                        NavigationLink(destination: HealthView()){
+                        NavigationLink(destination: HealthView(selectedTab: .constant(.home))){
                             CustomButtonStyle(title: "健康管理", color: .blue)
                         }
                         
-                        NavigationLink(destination: Text("placeholder")){
+                        NavigationLink(destination: AddDeviceView()){
                             CustomButtonStyle(title: "设备管理", color: .green)
                         }
                     }

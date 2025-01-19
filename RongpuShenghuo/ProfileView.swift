@@ -110,74 +110,71 @@ struct ProfileDetailView: View {
     }
     
     var body: some View {
-        NavigationView {
-            Form {
-                VStack {
-                    Image(userInfo.image)
-                        .resizable()
-                        .scaledToFill()
-                        .clipShape(Circle())
-                        .frame(width: 100, height: 100)
-                        .overlay {
-                            Circle().stroke(.gray, lineWidth: 1)
+        Form {
+            VStack {
+                Image(userInfo.image)
+                    .resizable()
+                    .scaledToFill()
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .overlay {
+                        Circle().stroke(.gray, lineWidth: 1)
+                    }
+                Text(userInfo.name)
+            }
+            .listRowBackground(Color(UIColor.systemGroupedBackground))
+            .frame(maxWidth: .infinity, alignment: .center)
+            
+            Section(header: Text("个人信息")) {
+                CustomRow(title: "姓名", content: $name, isEditable: isEditing)
+                CustomRow(title: "年龄", content: $age, isEditable: isEditing)
+                CustomRow(title: "地区", content: Binding(
+                    get: { "\(province) \(city)" },
+                    set: { newValue in
+                        let components = newValue.split(separator: " ")
+                        if components.count == 2 {
+                            province = String(components[0])
+                            city = String(components[1])
                         }
-                    Text(userInfo.name)
-                }
-                .listRowBackground(Color(UIColor.systemGroupedBackground))
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                Section(header: Text("个人信息")) {
-                    CustomRow(title: "姓名", content: $name, isEditable: isEditing)
-                    CustomRow(title: "年龄", content: $age, isEditable: isEditing)
-                    CustomRow(title: "地区", content: Binding(
-                        get: { "\(province) \(city)" },
-                        set: { newValue in
-                            let components = newValue.split(separator: " ")
-                            if components.count == 2 {
-                                province = String(components[0])
-                                city = String(components[1])
-                            }
-                        }
-                    ), isEditable: isEditing)
-                }
-                
-                Section(header: Text("紧急联系人")) {
-                    CustomRow(title: "紧急联系人1", content: $emergencyContact1, isEditable: isEditing)
-                    CustomRow(title: "紧急联系人2", content: $emergencyContact2, isEditable: isEditing)
-                }
-                
-                Section() {
-                    CustomRow(title: "医保账号", content: $medicalAccount, isEditable: isEditing)
-                    CustomRow(title: "社保账号", content: $socialSecurityAccount, isEditable: isEditing)
-                }
-                
-                Section(header: Text("会员信息")) {
-                    CustomRow(title: "会员编号", content: $memberID, isEditable: false)
-                    CustomRow(title: "类型", content: $membershipType, isEditable: false)
-                    CustomRow(title: "入会时间", content: $joinDateString, isEditable: false)
+                    }
+                ), isEditable: isEditing)
+            }
+            
+            Section(header: Text("紧急联系人")) {
+                CustomRow(title: "紧急联系人1", content: $emergencyContact1, isEditable: isEditing)
+                CustomRow(title: "紧急联系人2", content: $emergencyContact2, isEditable: isEditing)
+            }
+            
+            Section() {
+                CustomRow(title: "医保账号", content: $medicalAccount, isEditable: isEditing)
+                CustomRow(title: "社保账号", content: $socialSecurityAccount, isEditable: isEditing)
+            }
+            
+            Section(header: Text("会员信息")) {
+                CustomRow(title: "会员编号", content: $memberID, isEditable: false)
+                CustomRow(title: "类型", content: $membershipType, isEditable: false)
+                CustomRow(title: "入会时间", content: $joinDateString, isEditable: false)
+            }
+        }
+        .navigationTitle("个人资料")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(
+            trailing: Button(isEditing ? "保存" : "编辑") {
+                if isEditing {
+                    saveUserInfo()
+                } else {
+                    isEditing.toggle()
                 }
             }
-            .navigationTitle("个人资料")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                trailing: Button(isEditing ? "保存" : "编辑") {
-                    if isEditing {
-                        saveUserInfo()
-                    } else {
-                        isEditing.toggle()
-                    }
-                }
-            )
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    if isEditing {
-                        Button("取消") {
-                            cancelEditing()
-                        }
+        )
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                if isEditing {
+                    Button("取消") {
+                        cancelEditing()
                     }
                 }
             }
-            .navigationBarBackButtonHidden(isEditing) // Hide back button in edit mode
         }
     }
     

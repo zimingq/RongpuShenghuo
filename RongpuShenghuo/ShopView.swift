@@ -18,12 +18,12 @@ struct ShopView: View {
 
                 HStack(spacing: 30) {
                     AppIconView(imageName: "taobao", appName: "淘宝", urlScheme: "taobao://", appStoreLink: "https://apps.apple.com/cn/app/%E6%B7%98%E5%AE%9D-%E6%B7%98%E4%B8%AA%E5%A5%BD%E5%BD%A9%E5%A4%B4/id387682726")
-                    AppIconView(imageName: "tmall", appName: "天猫", urlScheme: "tmall://", appStoreLink: "https://apps.apple.com/cn/app/tmall/id406158264")
-                    AppIconView(imageName: "jingdong", appName: "京东", urlScheme: "jd://", appStoreLink: "https://apps.apple.com/cn/app/jd-com/id436941629")
+                    AppIconView(imageName: "tmall", appName: "天猫", urlScheme: "tmall://", appStoreLink: "https://apps.apple.com/cn/app/%E5%A4%A9%E7%8C%AB-%E5%A5%BD%E5%93%81%E7%89%8C-%E5%A5%BD%E4%BB%B7%E6%A0%BC-%E4%B8%8A%E5%A4%A9%E7%8C%AB/id518966501")
+                    AppIconView(imageName: "jingdong", appName: "京东", urlScheme: "openApp.jdMobile://", appStoreLink: "https://apps.apple.com/cn/app/%E4%BA%AC%E4%B8%9C-%E5%8F%88%E5%A5%BD%E5%8F%88%E4%BE%BF%E5%AE%9C/id414245413")
                 }
 
                 HStack(spacing: 30) {
-                    AppIconView(imageName: "pinduoduo", appName: "拼多多", urlScheme: "pdd://", appStoreLink: "https://apps.apple.com/cn/app/拼多多/id1020116749")
+                    AppIconView(imageName: "pinduoduo", appName: "拼多多", urlScheme: "pinduoduo://", appStoreLink: "https://apps.apple.com/cn/app/拼多多/id1020116749")
                     AppIconView(imageName: "douyin", appName: "抖音", urlScheme: "snssdk1128://", appStoreLink: "https://apps.apple.com/cn/app/抖音/id1142110895")
                 }
             }
@@ -37,9 +37,9 @@ struct ShopView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
-                    AppIconView(imageName: "meituan", appName: "美团", urlScheme: "meituan://", appStoreLink: "https://apps.apple.com/cn/app/美团/id372198446")
-                    AppIconView(imageName: "ctrip", appName: "携程", urlScheme: "ctrip://", appStoreLink: "https://apps.apple.com/cn/app/携程旅行/id453392081")
-                    AppIconView(imageName: "caocao", appName: "曹操出行", urlScheme: "caocao://", appStoreLink: "https://apps.apple.com/cn/app/曹操出行/id957687723")
+                    AppIconView(imageName: "meituan", appName: "美团", urlScheme: "imeituan://", appStoreLink: "https://apps.apple.com/cn/app/美团/id372198446")
+                    AppIconView(imageName: "ctrip", appName: "携程", urlScheme: "CtripWireless://", appStoreLink: "https://apps.apple.com/cn/app/携程旅行/id453392081")
+                    AppIconView(imageName: "caocao", appName: "曹操出行", urlScheme: "open.caocaokej://", appStoreLink: "https://apps.apple.com/cn/app/曹操出行/id957687723")
                 }
             }
 

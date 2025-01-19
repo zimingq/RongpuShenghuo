@@ -159,6 +159,7 @@ struct HealthInfoDetailView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
         .navigationTitle("健康信息")
         .navigationBarBackButtonHidden(isEditing) // Hide back button when editing
         .toolbar {

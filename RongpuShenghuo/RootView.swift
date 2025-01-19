@@ -28,7 +28,7 @@ struct RootView: View {
             
             SOSView()
                 .tabItem {
-                    Text("紧急救援")
+                    Text("疾速救援")
                     Image(systemName: "sos")
                 }
                 .tag(Tabs.sos)
@@ -40,7 +40,6 @@ struct RootView: View {
                 }
                 .tag(Tabs.chat)
         }
-        .accentColor(Color(red: 1.0, green: 0.19, blue: 0.19)) // Use .accentColor for tinting
     }
 }
 

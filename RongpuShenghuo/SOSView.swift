@@ -78,7 +78,7 @@ struct SOSView: View {
             .padding()
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Text("SOS 救援")
+                    Text("SOS 疾速救援")
                         .font(.system(size: 20)) // Custom font size
                         .bold()
                 }

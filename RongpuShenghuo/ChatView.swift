@@ -118,14 +118,17 @@ struct ChatView: View {
                     // Add action for back button
                     selectedTab = .home
                 }) {
-                    Image(systemName: "arrow.left")
-                        .font(.title2)
+                    HStack{
+                        Image(systemName: "chevron.backward")
+                        Text("Back")
+                            .font(.headline)
+                    }
                 },
                 trailing: NavigationLink(
                         destination: NotificationView()
                     ) {
                         Image(systemName: "bell.fill")
-                            .font(.title2)
+                            .font(.headline)
                     }
             )
             .padding()

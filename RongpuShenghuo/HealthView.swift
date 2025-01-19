@@ -13,91 +13,70 @@ struct HealthView: View {
     @StateObject private var userInfoManager = UserInfoManager()
     @State private var selectedUser: UserInfoModel?
     @State private var showingDeleteAlert = false
+    @Binding var selectedTab: RootView.Tabs
     
     private var users: [UserInfoModel] {
         userInfoManager.users
     }
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 15) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(users) { user in
-                                UserBlockView(user: user, selectedUser: $selectedUser)
-                                    .opacity(selectedUser?.id == user.id ? 1.0 : 0.5)
-                            }
+        ScrollView {
+            VStack(spacing: 15) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(users) { user in
+                            UserBlockView(user: user, selectedUser: $selectedUser)
+                                .opacity(selectedUser?.id == user.id ? 1.0 : 0.5)
                         }
-                        .padding(.trailing)
                     }
-                    .padding(.top)
+                    .padding(.trailing)
+                }
+                .padding(.top)
+                
+                if let selectedUser = selectedUser {
+                    let metrics: [(type: HealthMetricType, color: Color?, data: Any?)] = [
+                        (.heartRate, .red, selectedUser.heartRate),
+                        (.bloodPressure, .blue, selectedUser.bloodPressure),
+                        (.bloodSugar, .green, selectedUser.bloodSugar),
+                        (.cholesterol, .yellow, selectedUser.cholesterol)
+                    ]
                     
-                    if let selectedUser = selectedUser {
-                        let metrics: [(type: HealthMetricType, color: Color?, data: Any?)] = [
-                            (.heartRate, .red, selectedUser.heartRate),
-                            (.bloodPressure, .blue, selectedUser.bloodPressure),
-                            (.bloodSugar, .green, selectedUser.bloodSugar),
-                            (.cholesterol, .yellow, selectedUser.cholesterol)
-                        ]
-                        
-                        let filteredMetrics = metrics.filter { $0.data != nil }
-                        
-                        let metricPairs = stride(from: 0, to: filteredMetrics.count, by: 2).map {
-                            Array(filteredMetrics[$0..<min($0 + 2, filteredMetrics.count)])
-                        }
-                        
+                    let filteredMetrics = metrics.filter { $0.data != nil }
+                    
+                    let metricPairs = stride(from: 0, to: filteredMetrics.count, by: 2).map {
+                        Array(filteredMetrics[$0..<min($0 + 2, filteredMetrics.count)])
+                    }
+                    
+                    HStack {
+                        HealthInfoBlockView(user: selectedUser)
+                        AlertBlcokView(image: "", state: 0)
+                    }
+                    
+                    GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
+                    
+                    ForEach(metricPairs.indices, id: \.self) { index in
                         HStack {
-                            HealthInfoBlockView(user: selectedUser)
-                            AlertBlcokView(image: "", state: 0)
-                        }
-                        
-                        GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
-                        
-                        ForEach(metricPairs.indices, id: \.self) { index in
-                            HStack {
-                                ForEach(metricPairs[index], id: \.type) { metric in
-                                    HealthMetricView(user: selectedUser, metricType: metric.type, color: metric.color ?? Color.green)
-                                }
+                            ForEach(metricPairs[index], id: \.type) { metric in
+                                HealthMetricView(user: selectedUser, metricType: metric.type, color: metric.color ?? Color.green)
                             }
                         }
-                        
+                    }
+                    
 //                        HealthDataAddBlockView()
 //                            .padding(.bottom)
-                    } else {
-                        VStack {
-                            Text("当前没有用户")
-                                .font(.system(size: 24))
-                        }
-                    }
-                }
-                .onAppear {
-                    // Use a delayed update to avoid view update cycle issues
-                    if users.isEmpty {
-                        self.selectedUser = nil
-                    } else if selectedUser == nil {
-                        self.selectedUser = users.first
+                } else {
+                    VStack {
+                        Text("当前没有用户")
+                            .font(.system(size: 24))
                     }
                 }
             }
-            .navigationTitle("健康数据")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Image("logoText2")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100)
-                }
-                
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: UserCreationView(users: $userInfoManager.users)) {
-                        Image(systemName: "plus")
-                            .foregroundColor(.black)
-                    }
-                    Button(action: deleteSelectedUser) {
-                        Image(systemName: "trash")
-                            .foregroundColor(.black)
-                    }
+            .onAppear {
+                // Use a delayed update to avoid view update cycle issues
+                if users.isEmpty {
+                    self.selectedUser = nil
+                } else if selectedUser == nil {
+                    self.selectedUser = users.first
                 }
             }
         }
@@ -116,6 +95,19 @@ struct HealthView: View {
                 },
                 secondaryButton: .cancel()
             )
+        }
+        .navigationTitle("健康数据")
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                NavigationLink(destination: UserCreationView(users: $userInfoManager.users)) {
+                    Image(systemName: "plus")
+                        .foregroundColor(.black)
+                }
+                Button(action: deleteSelectedUser) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.black)
+                }
+            }
         }
     }
     
@@ -185,54 +177,51 @@ struct UserCreationView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Picker("Select Tab", selection: $selectedTab) {
-                    Text("添加用户").tag(0)
-                    Text("购买会员").tag(1)
-                    Text("会员续费").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-                
-                Form {
-                    switch selectedTab {
-                    case 0:
-                        // Form for "添加用户"
-                        userForm
-                    case 1:
-                        // Form for "购买会员"
-                        membershipPurchaseForm
-                    case 2:
-                        // Form for "会员续费"
-                        membershipRenewalForm
-                    default:
-                        EmptyView()
-                    }
-                }
-                
-                Button(action: {
-                    switch selectedTab {
-                    case 0:
-                        createUser()
-                    case 1:
-                        purchaseMembership()
-                    case 2:
-                        renewMembership()
-                    default:
-                        break
-                    }
-                }) {
-                    Text("提交")
-                        .foregroundColor(.black)
-                        .frame(maxWidth: .infinity, maxHeight: 44)
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                }
-                .disabled(name.isEmpty || memberID.isEmpty)
-                .padding() // Add padding around the button
+        VStack {
+            Picker("Select Tab", selection: $selectedTab) {
+                Text("添加用户").tag(0)
+                Text("购买会员").tag(1)
+                Text("会员续费").tag(2)
             }
-            .navigationTitle(tabTitle)
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            
+            Form {
+                switch selectedTab {
+                case 0:
+                    // Form for "添加用户"
+                    userForm
+                case 1:
+                    // Form for "购买会员"
+                    membershipPurchaseForm
+                case 2:
+                    // Form for "会员续费"
+                    membershipRenewalForm
+                default:
+                    EmptyView()
+                }
+            }
+            
+            Button(action: {
+                switch selectedTab {
+                case 0:
+                    createUser()
+                case 1:
+                    purchaseMembership()
+                case 2:
+                    renewMembership()
+                default:
+                    break
+                }
+            }) {
+                Text("提交")
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity, maxHeight: 44)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+            }
+            .disabled(name.isEmpty || memberID.isEmpty)
+            .padding() // Add padding around the button
         }
     }
     
@@ -717,5 +706,5 @@ struct HealthDataAddBlockView: View {
 }
 
 #Preview {
-    HealthView()
+    HealthView(selectedTab: .constant(.home))
 }
