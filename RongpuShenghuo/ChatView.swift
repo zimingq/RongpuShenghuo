@@ -11,106 +11,138 @@ extension UIApplication {
     func dismissKeyboard() {
         sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
+    
+    func showKeyboard() {
+        sendAction(#selector(UIResponder.becomeFirstResponder), to: nil, from: nil, for: nil)
+    }
 }
 
 struct ChatView: View {
     @StateObject private var viewModel = ChatViewModel()
     @State private var inputText = ""
-
+    @FocusState private var textFieldFocusState
+    @Binding var selectedTab: RootView.Tabs
+    
     var body: some View {
-        VStack {
-            // Message List
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(spacing: 10) {
-                        ForEach(viewModel.messages) { message in
-                            HStack {
-                                if message.isFromCurrentUser {
-                                    Spacer()
-                                    Text(message.text)
-                                        .padding()
-                                        .background(Color.green)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                } else {
-                                    Text(message.text)
-                                        .padding()
-                                        .background(Color.gray.opacity(0.2))
-                                        .foregroundColor(.black)
-                                        .cornerRadius(8)
-                                    Spacer()
+        NavigationView {
+            VStack {
+                // Message List
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(spacing: 10) {
+                            ForEach(viewModel.messages) { message in
+                                HStack {
+                                    if message.isFromCurrentUser {
+                                        Spacer()
+                                        Text(message.text)
+                                            .padding()
+                                            .background(Color.green)
+                                            .foregroundColor(.white)
+                                            .cornerRadius(8)
+                                    } else {
+                                        Text(message.text)
+                                            .padding()
+                                            .background(Color.gray.opacity(0.2))
+                                            .foregroundColor(.black)
+                                            .cornerRadius(8)
+                                        Spacer()
+                                    }
                                 }
+                                .padding(.horizontal, 15)
+                                .id(message.id)
                             }
-                            .padding(.horizontal, 15)
-                            .id(message.id)
                         }
                     }
-                }
-                .gesture(
-                    DragGesture().onChanged { _ in
-                        UIApplication.shared.dismissKeyboard()
-                    }
-                )
-                .onChange(of: viewModel.messages) { _ in
-                    if let lastMessage = viewModel.messages.last {
-                        withAnimation {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                    .onChange(of: viewModel.messages) { _ in
+                        if let lastMessage = viewModel.messages.last {
+                            withAnimation {
+                                proxy.scrollTo(lastMessage.id, anchor: .bottom)
+                            }
                         }
                     }
-                }
-            }
-            
-            // Input Field
-            HStack {
-                Button(action: {
-                    // Add action for the phone icon button if needed
-                }) {
-                    Image(systemName: "phone.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(.blue)
                 }
                 
-                Button(action: {
-                    // Add action for the video icon button if needed
-                }) {
-                    Image(systemName: "video.fill")
-                        .font(.system(size: 24))
-                        .foregroundColor(.blue)
-                }
+                HStack {
+                    Button {
+                        print("voice called")
+                    } label: {
+                        Image(systemName: "waveform")
+                    }
 
-                TextField("", text: $inputText)
-                    .padding(10) // Add padding inside the text field
-                    .background(Color.white)
-                    .cornerRadius(16) // Make the corner radius
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .padding(.horizontal,5)
+                    TextField("", text: $inputText)
+                        .padding(10)
+                        .background(Color.white)
+                        .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .padding(.horizontal, 5)
+                        .submitLabel(.send)
+                        .focused($textFieldFocusState)
+                        .onSubmit {
+                            textFieldFocusState = true
+                            if inputText.isEmpty {
+                                return
+                            } else {
+                                sendMessage()
+                                UIApplication.shared.showKeyboard()  // Show keyboard again after submission
+                            }
+                        }
 
-                Button(action: {
-                    viewModel.sendMessage(inputText)
-                    inputText = ""
-                }) {
-                    Text("发送")
-                        .font(.system(size: 20))
-                        .padding(.horizontal)
-                        .padding(.vertical, 8)
-                        .background(inputText.isEmpty ? Color.gray : Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(20)
+                    // Action Menu (Optional, depending on your UI)
+                    Menu {
+                        Button(action: {
+                            // Add action for phone call here
+                            print("Phone call selected")
+                        }) {
+                            Label("语音通话", systemImage: "phone.fill")
+                        }
+                        Button(action: {
+                            // Add action for video call here
+                            print("Video call selected")
+                        }) {
+                            Label("视频通话", systemImage: "video.fill")
+                        }
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.system(size: 24))
+                            .foregroundStyle(.blue)
+                    }
                 }
-                .disabled(inputText.isEmpty)
+                .padding()
             }
+            .navigationTitle("客服")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    // Add action for back button
+                    selectedTab = .home
+                }) {
+                    Image(systemName: "arrow.left")
+                        .font(.title2)
+                },
+                trailing: NavigationLink(
+                        destination: NotificationView()
+                    ) {
+                        Image(systemName: "bell.fill")
+                            .font(.title2)
+                    }
+            )
+            .padding()
         }
-        .navigationTitle("客服")
-        .padding()
+    }
+
+    private func sendMessage() {
+        if !inputText.isEmpty {
+            viewModel.sendMessage(inputText)
+            inputText = ""  // Clear the input text after sending
+            // No need to dismiss the keyboard here
+        }
     }
 }
 
 
 #Preview {
-    NavigationStack { // Use NavigationStack to display navigationTitle
-        ChatView()
-    }
+    ChatView(selectedTab: .constant(.chat))
 }

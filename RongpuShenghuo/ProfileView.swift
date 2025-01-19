@@ -11,7 +11,7 @@ struct ProfileView: View {
     @StateObject private var userInfoManager = UserInfoManager()
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 ProfileButtonView(userInfo: $userInfoManager.users[0])
                 
@@ -111,7 +111,7 @@ struct ProfileDetailView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             Form {
                 VStack {
                     Image(userInfo.image)

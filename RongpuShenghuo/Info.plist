@@ -2,9 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIUserInterfaceStyle</key>
-	<string>Light</string>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIUserInterfaceStyle</key>
+    <string>Light</string>
+
+    <!-- Add URL Schemes to check if apps are installed -->
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>taobao</string>  <!-- Taobao -->
+        <string>tmall</string>   <!-- Tmall -->
+        <string>jd</string>      <!-- JingDong -->
+        <string>pdd</string>     <!-- Pinduoduo -->
+        <string>douyin</string>  <!-- Douyin (TikTok) -->
+        <string>meituan</string> <!-- Meituan -->
+        <string>ctrip</string>   <!-- Ctrip -->
+        <string>caocao</string>  <!-- CaoCao -->
+    </array>
 </dict>
 </plist>

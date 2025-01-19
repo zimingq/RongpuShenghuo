@@ -19,7 +19,7 @@ struct HealthView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ScrollView {
                 VStack(spacing: 15) {
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -46,11 +46,6 @@ struct HealthView: View {
                         let metricPairs = stride(from: 0, to: filteredMetrics.count, by: 2).map {
                             Array(filteredMetrics[$0..<min($0 + 2, filteredMetrics.count)])
                         }
-                        
-//                        HStack {
-//                            CCTVBlockView()
-//                            GPSBlockView()
-//                        }
                         
                         GraphBlockView(data: [10, 20, 15, 30, 10, 40, 35])
                         
@@ -85,6 +80,7 @@ struct HealthView: View {
                     }
                 }
             }
+            .navigationTitle("健康数据")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Image("logoText2")
@@ -93,21 +89,17 @@ struct HealthView: View {
                         .frame(width: 100)
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        NavigationLink(destination: UserCreationView(users: $userInfoManager.users)) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.black)
-                        }
-                        Button(action: deleteSelectedUser) {
-                            Image(systemName: "trash")
-                                .foregroundColor(.black)
-                        }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: UserCreationView(users: $userInfoManager.users)) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.black)
+                    }
+                    Button(action: deleteSelectedUser) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.black)
                     }
                 }
             }
-            .toolbarBackground(Color("LightGray"), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
         .alert(isPresented: $showingDeleteAlert) {
             Alert(
@@ -131,6 +123,8 @@ struct HealthView: View {
         showingDeleteAlert = true
     }
 }
+
+
 
 
 struct UserBlockView: View {
@@ -191,7 +185,7 @@ struct UserCreationView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack {
                 Picker("Select Tab", selection: $selectedTab) {
                     Text("添加用户").tag(0)

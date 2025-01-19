@@ -10,63 +10,21 @@ import SwiftUI
 struct ShopView: View {
     var body: some View {
         VStack(spacing: 20) {
+            // Shopping Channel
             VStack(spacing: 10) {
                 Text("购物频道")
                     .font(.system(size: 20))
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
-                    VStack {
-                        Image("taobao")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.blue)
-                        Text("淘宝")
-                            .font(.system(size: 16))
-                    }
-                    
-                    VStack {
-                        Image("tmall")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("天猫")
-                            .font(.system(size: 16))
-                    }
-                    
-                    VStack {
-                        Image("jingdong")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.red)
-                        Text("京东")
-                            .font(.system(size: 16))
-                    }
-
+                    AppIconView(imageName: "taobao", appName: "淘宝", urlScheme: "taobao://", appStoreLink: "https://apps.apple.com/cn/app/%E6%B7%98%E5%AE%9D-%E6%B7%98%E4%B8%AA%E5%A5%BD%E5%BD%A9%E5%A4%B4/id387682726")
+                    AppIconView(imageName: "tmall", appName: "天猫", urlScheme: "tmall://", appStoreLink: "https://apps.apple.com/cn/app/tmall/id406158264")
+                    AppIconView(imageName: "jingdong", appName: "京东", urlScheme: "jd://", appStoreLink: "https://apps.apple.com/cn/app/jd-com/id436941629")
                 }
-                
+
                 HStack(spacing: 30) {
-                    VStack {
-                        Image("pinduoduo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("拼多多")
-                            .font(.system(size: 16))
-                    }
-                    .frame(alignment: .leading)
-                    
-                    VStack {
-                        Image("douyin")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("抖音")
-                            .font(.system(size: 16))
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    AppIconView(imageName: "pinduoduo", appName: "拼多多", urlScheme: "pdd://", appStoreLink: "https://apps.apple.com/cn/app/拼多多/id1020116749")
+                    AppIconView(imageName: "douyin", appName: "抖音", urlScheme: "snssdk1128://", appStoreLink: "https://apps.apple.com/cn/app/抖音/id1142110895")
                 }
                 .padding(.horizontal, 35)
             }
@@ -80,60 +38,58 @@ struct ShopView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 HStack(spacing: 30) {
-                    VStack {
-                        Image("meituan")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("美团")
-                            .font(.system(size: 16))
-                    }
-
-
-                    VStack {
-                        Image("ctrip")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("携程")
-                            .font(.system(size: 16))
-                    }
-                    
-                    VStack {
-                        Image("caocao")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                        Text("曹操出行")
-                            .font(.system(size: 16))
-                    }
+                    AppIconView(imageName: "meituan", appName: "美团", urlScheme: "meituan://", appStoreLink: "https://apps.apple.com/cn/app/美团/id372198446")
+                    AppIconView(imageName: "ctrip", appName: "携程", urlScheme: "ctrip://", appStoreLink: "https://apps.apple.com/cn/app/携程旅行/id453392081")
+                    AppIconView(imageName: "caocao", appName: "曹操出行", urlScheme: "caocao://", appStoreLink: "https://apps.apple.com/cn/app/曹操出行/id957687723")
                 }
-                
+
                 HStack {
-                    VStack {
-                        Image(systemName: "house.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 50, height: 50)
-                            .foregroundColor(.purple)
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.purple, lineWidth: 2)
-                            )
-                        Text("养老院")
-                            .font(.system(size: 16))
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    AppIconView(imageName: "house.fill", appName: "养老院", urlScheme: "养老院://", appStoreLink: "https://apps.apple.com/cn/app/养老院/id1234567890")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.horizontal, 35)
-
             }
 
             Spacer()
         }
         .padding()
         .navigationTitle("荣菩生活")
+    }
+    
+    // Reusable app icon view
+    struct AppIconView: View {
+        var imageName: String
+        var appName: String
+        var urlScheme: String
+        var appStoreLink: String
+        
+        var body: some View {
+            VStack {
+                Image(imageName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .cornerRadius(12) // Set consistent corner radius for all images
+                    .onTapGesture {
+                        openApp(urlScheme: urlScheme, appStoreLink: appStoreLink)
+                    }
+                Text(appName)
+                    .font(.system(size: 16))
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+        
+        func openApp(urlScheme: String, appStoreLink: String) {
+            if let url = URL(string: urlScheme) {
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url)
+                } else {
+                    if let appStoreURL = URL(string: appStoreLink) {
+                        UIApplication.shared.open(appStoreURL)
+                    }
+                }
+            }
+        }
     }
 }
 

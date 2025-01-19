@@ -13,7 +13,7 @@ struct SOSView: View {
     let options = ["迷路救助", "生命救助"] // Picker options
 
     var body: some View {
-        NavigationStack {
+        NavigationView {
             VStack(spacing: 30) {
                 // Title Section
                 VStack(spacing: 10) {
