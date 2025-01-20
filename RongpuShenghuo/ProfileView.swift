@@ -11,34 +11,32 @@ struct ProfileView: View {
     @StateObject private var userInfoManager = UserInfoManager()
     
     var body: some View {
-        NavigationView {
-            Form {
-                ProfileButtonView(userInfo: $userInfoManager.users[0])
-                
-                HStack {
-                    CCTVBlockView()
-                    GPSBlockView()
-                }
-                Section {
-                    sectionWithButtons(title: "设置", systemName: "gear")
-                    sectionWithButtons(title: "隐私", systemName: "lock")
-                }
-                
-                Section {
-                    sectionWithButtons(title: "帮助中心", systemName: "questionmark.circle")
-                    sectionWithButtons(title: "联系我们", systemName: "envelope")
-                }
-                
-                Section {
-                    sectionWithButtons(title: "服务条款", systemName: "doc.text")
-                    sectionWithButtons(title: "隐私条款", systemName: "shield")
-                }
-                sectionWithButtons(title: "退出登录", systemName: "rectangle.portrait.and.arrow.right")
-                    .foregroundStyle(Color.red)
+        Form {
+            ProfileButtonView(userInfo: $userInfoManager.users[0])
+            
+            HStack {
+                CCTVBlockView()
+                GPSBlockView()
             }
-            .navigationTitle("个人中心")
-            .navigationBarTitleDisplayMode(.inline)
+            Section {
+                sectionWithButtons(title: "设置", systemName: "gear")
+                sectionWithButtons(title: "隐私", systemName: "lock")
+            }
+            
+            Section {
+                sectionWithButtons(title: "帮助中心", systemName: "questionmark.circle")
+                sectionWithButtons(title: "联系我们", systemName: "envelope")
+            }
+            
+            Section {
+                sectionWithButtons(title: "服务条款", systemName: "doc.text")
+                sectionWithButtons(title: "隐私条款", systemName: "shield")
+            }
+            sectionWithButtons(title: "退出登录", systemName: "rectangle.portrait.and.arrow.right")
+                .foregroundStyle(Color.red)
         }
+        .navigationTitle("个人中心")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     @ViewBuilder

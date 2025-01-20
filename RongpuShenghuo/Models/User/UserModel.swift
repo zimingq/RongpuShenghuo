@@ -8,7 +8,7 @@
 import Foundation
 
 enum HealthMetricType {
-    case heartRate, bloodPressure, bloodSugar, cholesterol
+    case heartRate, bloodPressure, bloodSugar, cholesterol, bloodOxygen, ecgData
 }
 
 //

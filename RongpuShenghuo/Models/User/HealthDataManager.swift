@@ -18,6 +18,7 @@ class HealthDataManager: ObservableObject {
         var bloodPressure: Int?
         var bloodSugar: Int?
         var cholesterol: Int?
+        var bloodOxygen: Int?
     }
     
     func updateHealthMetrics(for userId: UUID, metrics: HealthMetrics) {

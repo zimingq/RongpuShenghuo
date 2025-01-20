@@ -37,7 +37,9 @@ class UserInfoManager: ObservableObject {
                     heartRate: 75,
                     bloodPressure: 120,
                     bloodSugar: 90,
-                    cholesterol: 180
+                    cholesterol: 180,
+                    bloodOxygen: 95,
+                    ecgData: HealthMetricsModel.generateSampleECGData()
                 )
             ]
         }

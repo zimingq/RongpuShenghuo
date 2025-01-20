@@ -38,7 +38,8 @@ struct HealthView: View {
                         (.heartRate, .red, selectedUser.heartRate),
                         (.bloodPressure, .blue, selectedUser.bloodPressure),
                         (.bloodSugar, .green, selectedUser.bloodSugar),
-                        (.cholesterol, .yellow, selectedUser.cholesterol)
+                        (.cholesterol, .yellow, selectedUser.cholesterol),
+                        (.bloodOxygen, .blue, selectedUser.bloodOxygen)
                     ]
                     
                     let filteredMetrics = metrics.filter { $0.data != nil }
@@ -58,9 +59,14 @@ struct HealthView: View {
                         HStack {
                             ForEach(metricPairs[index], id: \.type) { metric in
                                 HealthMetricView(user: selectedUser, metricType: metric.type, color: metric.color ?? Color.green)
+                                if index == metricPairs.count - 1, metricPairs[index].count == 1 {
+                                                        EcgGraphView(image: "waveform.path.ecg.rectangle.fill")
+                                                    }
                             }
                         }
                     }
+//                    EcgGraphView(image: "waveform.path.ecg.rectangle.fill")
+//                    ECGLineGraph(ecgData: selectedUser.ecgData ?? [])
                     
 //                        HealthDataAddBlockView()
 //                            .padding(.bottom)
@@ -359,6 +365,12 @@ struct HealthMetricView: View {
         case .cholesterol:
             metricValue = "\(user.cholesterol ?? 0) mg/dL"
             metricName = "膽固醇"
+        case .bloodOxygen:
+            metricValue = "\(user.bloodOxygen ?? 0) %"
+            metricName = "血氧"
+        case .ecgData:
+            metricValue = "\(user.bloodOxygen ?? 0) %"
+            metricName = "心电图"
         }
         
         return ZStack {
@@ -432,6 +444,32 @@ struct AlertBlcokView: View {
         })
     }
 }
+
+struct EcgGraphView: View {
+    let image: String
+    
+    var body: some View {
+        Button(action: {
+        }, label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(.green.opacity(0.2))
+                    .frame(width: 180, height: 120)
+                    .shadow(radius: 5)
+                
+                VStack(spacing: 10) {
+                    Text("心电图")
+                        .font(.system(size: 24))
+                        .foregroundColor(.green)
+                    Image(systemName: image)
+                        .font(.system(size: 24))
+                        .foregroundColor(.black)
+                }
+            }
+        })
+    }
+}
+
 
 struct GPSBlockView: View {
     @StateObject private var locationManager = LocationDataManager()
@@ -521,6 +559,57 @@ struct CCTVBlockView: View {
     }
 }
 
+struct ECGLineGraph: View {
+    let ecgData: [ECGDataPoint]
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let width = geometry.size.width
+            let height = geometry.size.height
+            
+            // Calculate the X-step for the timestamps
+            let stepX = width / CGFloat(ecgData.count - 1)
+            
+            // Find the max and min voltage values to scale the Y-axis
+            let maxVoltage = ecgData.map { $0.voltage }.max() ?? 1
+            let minVoltage = ecgData.map { $0.voltage }.min() ?? 0
+            let voltageRange = maxVoltage - minVoltage == 0 ? 1 : maxVoltage - minVoltage
+            
+            ZStack {
+                // Draw the ECG graph line
+                Path { path in
+                    guard !ecgData.isEmpty else { return }
+                    
+                    // Start path at the first point
+                    let firstPointY = height - ((ecgData[0].voltage - minVoltage) / voltageRange * height)
+                    path.move(to: CGPoint(x: 0, y: firstPointY))
+                    
+                    // Draw lines for each data point
+                    for index in 1..<ecgData.count {
+                        let x = CGFloat(index) * stepX
+                        let y = height - ((ecgData[index].voltage - minVoltage) / voltageRange * height)
+                        path.addLine(to: CGPoint(x: x, y: y))
+                    }
+                }
+                .stroke(Color.blue, lineWidth: 2)
+                
+                // Draw data points as circles
+                ForEach(ecgData.indices, id: \.self) { index in
+                    let x = CGFloat(index) * stepX
+                    let y = height - ((ecgData[index].voltage - minVoltage) / voltageRange * height)
+                    
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 8, height: 8)
+                        .position(x: x, y: y)
+                }
+            }
+        }
+        .frame(height: 200) // Set the height explicitly
+        .padding(10) // Avoid clipping near the edges
+    }
+}
+
 struct LineGraph: View {
     let data: [CGFloat]
     
@@ -565,7 +654,6 @@ struct LineGraph: View {
         .padding(10) // Avoid clipping near the edges
     }
 }
-
 
 struct GraphBlockView: View {
     @State private var isDetailPresented = false

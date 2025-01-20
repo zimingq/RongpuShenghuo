@@ -29,6 +29,8 @@ struct UserInfoModel: Identifiable, Codable {
     var bloodPressure: Int?
     var bloodSugar: Int?
     var cholesterol: Int?
+    var bloodOxygen: Int?
+    var ecgData: [ECGDataPoint]?
     
     static func == (lhs: UserInfoModel, rhs: UserInfoModel) -> Bool {
         return lhs.id == rhs.id

@@ -156,6 +156,11 @@ struct HealthInfoDetailView: View {
                         Spacer()
                         Text("\(editableUser.cholesterol ?? 0) mg/dL")
                     }
+                    HStack {
+                        Text("血氧：")
+                        Spacer()
+                        Text("\(editableUser.bloodOxygen ?? 0) %")
+                    }
                 }
             }
         }
@@ -218,6 +223,6 @@ struct HealthInfoDetailView: View {
         heartRate: 72,
         bloodPressure: 120,
         bloodSugar: 90,
-        cholesterol: 180
+        cholesterol: 95
     ))
 }
