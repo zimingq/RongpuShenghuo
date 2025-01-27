@@ -123,11 +123,11 @@ struct HealthInfoDetailView: View {
             Section(header: Text("病史").font(.headline)) {
                 VStack(alignment: .leading) {
                     if isEditing {
-                        TextField("病史", text: .constant("低血糖")) // Replace with actual value
-                        TextField("补充说明", text: .constant("补充说明")) // Replace with actual value
+                        TextField("病史", text: .constant("低血糖"))
+                        TextField("补充说明", text: .constant("补充说明"))
                     } else {
-                        Text("低血糖") // Replace with actual data
-                        Text("补充说明：") // Replace with actual data
+                        Text("低血糖")
+                        Text("补充说明：")
                             .font(.subheadline)
                     }
                 }
@@ -166,14 +166,12 @@ struct HealthInfoDetailView: View {
         }
         .navigationBarBackButtonHidden(true)
         .navigationTitle("健康信息")
-        .navigationBarBackButtonHidden(isEditing) // Hide back button when editing
+        .navigationBarBackButtonHidden(isEditing)
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarLeading) {
                 if isEditing {
                     Button("取消") {
-                        // Exit editing mode without saving
                         isEditing.toggle()
-                        // Reset the province and city to the user's original data
                         selectedProvince = editableUser.location.province
                         selectedCity = editableUser.location.city
                     }
@@ -199,7 +197,7 @@ struct HealthInfoDetailView: View {
     
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd" // Format for year-month-day
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
     }
 }
