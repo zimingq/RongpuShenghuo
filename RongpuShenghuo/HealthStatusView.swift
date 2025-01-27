@@ -15,27 +15,41 @@ struct HealthStatusView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        HStack(spacing: 2) {
-            HealthStatusIndicator(healthStatus: healthStatus)
-            
-            // Use the calculated health value for the indicator bar
-            HealthProgressBar(healthValue: healthValue)
-                .padding(10)
-        }
-        .onReceive(timer) { _ in
-            if currentIndex < healthStatus.count {
-                healthStatus[currentIndex] = weightedRandom()
-                currentIndex += 1
-            } else if currentIndex == 60 {
-                healthStatus = Array(repeating: 0, count: 60)
-                currentIndex = 0
+        VStack(spacing: 0) {
+            HStack(spacing: 8) {
+                HealthStatusIndicator(healthStatus: healthStatus)
+                
+                // Use the calculated health value for the indicator bar
+                HealthProgressBar(healthValue: healthValue)
             }
-            
-            // Calculate health value and animate the change
-            withAnimation(.easeInOut(duration: 0.5)) {
-                healthValue = calculateHealthValue()
+            .onReceive(timer) { _ in
+                if currentIndex < healthStatus.count {
+                    healthStatus[currentIndex] = weightedRandom()
+                    currentIndex += 1
+                } else if currentIndex == 60 {
+                    healthStatus = Array(repeating: 0, count: 60)
+                    currentIndex = 0
+                }
+                
+                // Calculate health value and animate the change
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    healthValue = calculateHealthValue()
+                }
             }
+            .border(.black, width: 2)
+            HStack {
+                Text("0")
+                Spacer()
+                Text("1分钟")
+            }
+            .padding(.horizontal, 40)
+            Text("注：右侧为健康等级提示条")
+            
         }
+        .border(Color.black, width: 2)
+        .padding()
+        Text("RP矩阵")
+            .font(.title)
     }
     
     func calculateHealthValue() -> Int {
@@ -149,26 +163,17 @@ struct HealthProgressBar: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
                 VStack(spacing: 0) {
-                    ForEach(0..<5) { _ in
+                    ForEach(0..<5) { row in
                         Rectangle()
                             .fill(.black.opacity(0))
                             .frame(width: 40, height: 60)
                             .overlay(
                                 Rectangle()
-                                    .stroke(Color.black, lineWidth: 1)
+                                    .stroke(Color.black, lineWidth: ((healthValue / 20) == row) ? 5 : 1)
                             )
                     }
                 }
             }
-            
-            Circle()
-                .fill(.black.opacity(0))
-                .frame(width: 35, height: 35)
-                .overlay(
-                    Circle()
-                        .stroke(Color.black, lineWidth: 4)
-                )
-                .offset(y: calculateOffset(for: healthValue))
         }
         .frame(width: 40, height: 300)
     }
